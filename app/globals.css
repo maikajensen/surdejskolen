@@ -1,0 +1,30 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+
+@theme {
+  --color-nordic-white: #F9F7F2;
+  --color-nordic-brown: #5D4037;
+  --color-nordic-beige: #E6DED5;
+  --color-nordic-tan: #D7CCC8;
+  --color-nordic-slate: #4A4A4A;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-merriweather), ui-serif, Georgia, serif;
+}
+
+:root {
+  --background: var(--color-nordic-white);
+  --foreground: var(--color-nordic-slate);
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+/* Hide Next.js Development Indicators */
+nextjs-portal {
+  display: none !important;
+}
