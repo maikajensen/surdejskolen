@@ -17,7 +17,7 @@ interface EmailParams {
 
 export const sendOrderConfirmation = async (
     order: ShopOrder,
-    items: ShopOrderItem[]
+    items: Omit<ShopOrderItem, 'id'>[]
 ) => {
     // Reuse existing Service ID, Template ID, and Public Key from BookingForm
     const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
