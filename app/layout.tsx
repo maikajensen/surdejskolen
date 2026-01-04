@@ -19,6 +19,9 @@ const merriweather = Merriweather({
 export const metadata: Metadata = {
   title: "Surdejskolen - Lær at bage fantastisk brød",
   description: "Workshops i surdejsbagning, opskrifter og mere.",
+  verification: {
+    google: "5_XPKc6PvjVNe8uoZZN4LNGTVADTQ-Uji43CzP1UbUo",
+  },
 };
 
 export default function RootLayout({
