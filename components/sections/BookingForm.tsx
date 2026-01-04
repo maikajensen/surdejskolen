@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import emailjs from '@emailjs/browser';
+
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Workshop } from '@/types';
@@ -47,41 +47,31 @@ export function BookingForm({ workshop, onCancel, onSuccess }: BookingFormProps)
             // 2. Call onSuccess (updates UI, closes modal)
             onSuccess();
 
-            // 3. Send Email via EmailJS (Client Side)
+            // 3. Send Email via Server API
             try {
-                const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
-                const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
-                const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
-
-                if (!publicKey || !serviceId || !templateId) {
-                    console.warn('Missing EmailJS keys in .env.local');
-                    alert('Note: Email configuration is missing. Booking is saved, but no email was sent.');
-                    return;
-                }
-
-                await emailjs.send(
-                    serviceId,
-                    templateId,
-                    {
-                        // Template variables matching the screenshot:
-                        email: data.customer_email,
-                        name: data.customer_name,
-                        title: workshop.title || `Surdejs Workshop d. ${workshop.date} kl. ${workshop.time}`,
-
-                        // Extra data (optional, but good for admin email if re-using same params)
-                        customer_phone: data.customer_phone,
-                        workshop_price: workshop.price,
-                        admin_email: 'maikalindkvistjensen@gmail.com'
-                    },
-                    publicKey
-                );
+                await fetch('/api/send-email', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        type: 'booking',
+                        data: {
+                            customer_email: data.customer_email,
+                            customer_name: data.customer_name,
+                            customer_phone: data.customer_phone,
+                            workshop_date: workshop.date,
+                            workshop_time: workshop.time,
+                            total_amount: workshop.price, // Assuming price is needed
+                        }
+                    })
+                });
 
                 alert('Booking bekræftet! En email er sendt til dig.');
                 console.log('Confirmation email sent');
 
             } catch (emailErr: any) {
                 console.error('Failed to send email:', emailErr);
-                alert('Booking bekræftet, men email kunne ikke sendes: ' + (emailErr.text || emailErr.message || 'Ukendt fejl'));
+                // Don't alert error to user as booking was successful, just log it.
+                // Or maybe alert a warning: "Booking succeeded but email failed."
             }
 
         } catch (err: any) {

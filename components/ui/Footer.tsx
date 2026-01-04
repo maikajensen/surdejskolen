@@ -5,6 +5,7 @@ export function Footer() {
         <footer className="bg-nordic-brown text-nordic-beige py-12 px-4 text-center">
             <div className="flex flex-col gap-4 items-center">
                 <p className="font-serif">&copy; {new Date().getFullYear()} Surdejskolen. Alle rettigheder forbeholdes.</p>
+                <p className="text-sm opacity-80">Surdejskolen v/ LCAI I/S CVR: 46113705</p>
                 <div className="flex gap-6">
                     <a
                         href="https://instagram.com/surdejskolen"
