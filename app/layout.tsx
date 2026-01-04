@@ -17,8 +17,28 @@ const merriweather = Merriweather({
 });
 
 export const metadata: Metadata = {
-  title: "Surdejskolen - Lær at bage fantastisk brød",
-  description: "Workshops i surdejsbagning, opskrifter og mere.",
+  title: {
+    default: "Surdejskolen - Lær at bage fantastisk brød",
+    template: "%s | Surdejskolen",
+  },
+  description: "Deltag i vores workshops og lær kunsten at bage det perfekte surdejsbrød. Vi tilbyder kurser, opskrifter og faglige tips til din bagning.",
+  keywords: ["surdej", "bagekursus", "brød", "surdejsbrød", "workshop", "bage", "opskrifter", "surdejskolen"],
+  authors: [{ name: "Maika Jensen" }],
+  creator: "Maika Jensen",
+  openGraph: {
+    type: "website",
+    locale: "da_DK",
+    url: "https://surdejskolen.dk",
+    title: "Surdejskolen - Lær at bage fantastisk brød",
+    description: "Workshops i surdejsbagning, opskrifter og mere.",
+    siteName: "Surdejskolen",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Surdejskolen",
+    description: "Lær at bage det perfekte surdejsbrød",
+    creator: "@surdejskolen",
+  },
   verification: {
     google: "5_XPKc6PvjVNe8uoZZN4LNGTVADTQ-Uji43CzP1UbUo",
   },
