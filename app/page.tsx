@@ -53,7 +53,7 @@ export default function Home() {
           <div className="flex-1 space-y-6">
             <h2 className="text-4xl font-serif text-nordic-brown font-bold">Om Surdejskolen</h2>
             <p className="text-lg text-nordic-slate leading-relaxed">
-              Jeg startede Surdejskolen med en simpel passion: at dele glæden ved at bage sit eget brød. Der er noget magisk i at se vand, mel og salt forvandle sig til et gyldent, duftende brød.
+              Jeg startede Surdejskolen for at dele glæden ved at bage sit eget brød. Der er noget magisk i at se vand, mel og salt forvandle sig til et gyldent, duftende og velsmagende brød.
             </p>
             <p className="text-lg text-nordic-slate leading-relaxed">
               På mine workshops går vi i dybden med surdejens biologi, foldeteknikker og bagning, så du kan gå hjem og genskabe magien i dit eget køkken.
