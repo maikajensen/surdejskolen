@@ -59,15 +59,18 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: 'Kunne ikke oprette booking' }, { status: 500 });
         }
 
-        // 3. Update slots_taken (In a real app, use a database function/trigger for atomicity)
-        const { error: updateError } = await supabase
-            .from('workshops')
-            .update({ slots_taken: workshop.slots_taken + 1 })
-            .eq('id', workshop_id);
+        // 3. Update slots_taken safely using RPC
+        const { error: updateError } = await supabase.rpc('increment_slots', { row_id: workshop_id });
 
         if (updateError) {
-            // Rollback booking? Or just log/alert admin
-            console.error('Failed to update slots:', updateError);
+            console.error('Failed to update slots via RPC:', updateError);
+            // If RPC fails (e.g. function not found), fall back to direct update as try
+            const { error: fallbackError } = await supabase
+                .from('workshops')
+                .update({ slots_taken: workshop.slots_taken + 1 })
+                .eq('id', workshop_id);
+
+            if (fallbackError) console.error('Fallback update failed:', fallbackError);
         }
 
         return NextResponse.json({ success: true, booking });
