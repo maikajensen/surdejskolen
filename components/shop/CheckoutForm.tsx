@@ -7,7 +7,6 @@ import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Check, Loader2 } from 'lucide-react';
-import { sendOrderConfirmation } from '@/lib/email';
 
 export function CheckoutForm() {
     const router = useRouter();
@@ -66,11 +65,25 @@ export function CheckoutForm() {
 
             if (itemsError) throw itemsError;
 
-            // 3. Send Email
-            await sendOrderConfirmation(
-                { id: orderId, ...formData, total_amount: cartTotal, status: 'pending', created_at: new Date().toISOString() },
-                orderItems
-            );
+            // 3. Send confirmation email via server-side Resend API
+            try {
+                await fetch('/api/send-email', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        type: 'shop_order',
+                        data: {
+                            customer_name: formData.customer_name,
+                            customer_email: formData.customer_email,
+                            order_id: orderId,
+                            total_amount: cartTotal,
+                            items: orderItems,
+                        },
+                    }),
+                });
+            } catch (emailErr) {
+                console.error('Failed to send confirmation email:', emailErr);
+            }
 
             // 4. Success
             clearCart();
